@@ -55,9 +55,15 @@ class AddProductActivity : AppCompatActivity() {
     private val pickPhoto =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                setPhoto(uri)
+                val local = copyIntoAppPictures(uri)
+                if (local != null) {
+                    setPhoto(local)
+                } else {
+                    Toast.makeText(this, "Не вдалося зберегти фото", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +100,26 @@ class AddProductActivity : AppCompatActivity() {
             loadIfExists(fromIntent)
         }
     }
+    private fun copyIntoAppPictures(source: Uri): Uri? {
+        return try {
+            val picturesDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES) ?: return null
+            val imagesDir = File(picturesDir, "images").apply { mkdirs() }
+
+            val ts = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+            val destFile = File(imagesDir, "IMG_IMPORT_$ts.jpg")
+
+            contentResolver.openInputStream(source)?.use { input ->
+                destFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            } ?: return null
+
+            FileProvider.getUriForFile(this, "${packageName}.fileprovider", destFile)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 
     private fun setBarcode(barcode: String) {
         currentBarcode = barcode

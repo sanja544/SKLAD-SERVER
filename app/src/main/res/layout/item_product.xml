@@ -5,6 +5,16 @@
     android:layout_height="wrap_content"
     android:padding="12dp">
 
+    <ImageView
+        android:id="@+id/ivThumb"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Фото"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/tvName"
         android:layout_width="0dp"
@@ -13,8 +23,9 @@
         android:textStyle="bold"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/ivThumb"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="12dp" />
 
     <TextView
         android:id="@+id/tvBarcode"
@@ -23,7 +34,7 @@
         android:text="Barcode"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@id/tvName"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvName"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
@@ -33,7 +44,7 @@
         android:text="0.00"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/tvBarcode"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/tvName" />
 
     <TextView
         android:id="@+id/tvQty"

@@ -1,6 +1,8 @@
 package com.scan.warehouse.ui
 
+import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.scan.warehouse.data.ProductEntity
@@ -8,7 +10,8 @@ import com.scan.warehouse.databinding.ItemProductBinding
 
 class ProductAdapter(
     private val onClick: (ProductEntity) -> Unit,
-    private val onLongClick: (ProductEntity) -> Unit
+    private val onLongClick: (ProductEntity) -> Unit,
+    private val onPhotoClick: (String) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.VH>() {
 
     private val items = ArrayList<ProductEntity>()
@@ -25,17 +28,41 @@ class ProductAdapter(
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(items[position], onClick, onLongClick)
+        holder.bind(items[position], onClick, onLongClick, onPhotoClick)
     }
 
     override fun getItemCount(): Int = items.size
 
     class VH(private val b: ItemProductBinding) : RecyclerView.ViewHolder(b.root) {
-        fun bind(p: ProductEntity, onClick: (ProductEntity) -> Unit, onLongClick: (ProductEntity) -> Unit) {
+        fun bind(
+            p: ProductEntity,
+            onClick: (ProductEntity) -> Unit,
+            onLongClick: (ProductEntity) -> Unit,
+            onPhotoClick: (String) -> Unit
+        ) {
             b.tvName.text = p.name
             b.tvBarcode.text = p.barcode
             b.tvPrice.text = "₴ ${"%.2f".format(p.price)}"
             b.tvQty.text = "qty: ${p.qty}"
+
+            val uriStr = p.photoUri
+            if (!uriStr.isNullOrBlank()) {
+                b.ivThumb.visibility = View.VISIBLE
+                try {
+                    b.ivThumb.setImageURI(Uri.parse(uriStr))
+                } catch (e: Exception) {
+                    b.ivThumb.visibility = View.GONE
+                    b.ivThumb.setImageDrawable(null)
+                    b.ivThumb.setOnClickListener(null)
+                }
+
+                b.ivThumb.setOnClickListener { onPhotoClick(uriStr) }
+            } else {
+                b.ivThumb.visibility = View.GONE
+                b.ivThumb.setImageDrawable(null)
+                b.ivThumb.setOnClickListener(null)
+            }
+
             b.root.setOnClickListener { onClick(p) }
             b.root.setOnLongClickListener { onLongClick(p); true }
         }

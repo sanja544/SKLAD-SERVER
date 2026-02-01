@@ -54,10 +54,16 @@ class InventoryActivity : AppCompatActivity() {
                     }
                     .setNegativeButton("Скасувати", null)
                     .show()
-
+            },
+            onPhotoClick = { uriStr ->
+                startActivity(
+                    Intent(this, PhotoViewActivity::class.java)
+                        .putExtra(PhotoViewActivity.EXTRA_URI, uriStr)
+                )
             }
         )
-binding.rvProducts.layoutManager = LinearLayoutManager(this)
+
+        binding.rvProducts.layoutManager = LinearLayoutManager(this)
         binding.rvProducts.adapter = adapter
 
         binding.etSearch.doAfterTextChanged {
