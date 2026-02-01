@@ -17,3 +17,4 @@ local.properties
 .idea/
 hs_err_pid*.log
 replay_pid*.log
+tools/*.py
