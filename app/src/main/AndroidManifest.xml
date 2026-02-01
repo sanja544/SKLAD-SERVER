@@ -1,0 +1,55 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:label="WarehouseScanner"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.WarehouseScanner">
+
+        <activity
+            android:name=".ScannerActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".GroupsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".InventoryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".IssueActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AddProductActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+
+</manifest>
