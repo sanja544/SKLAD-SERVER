@@ -24,3 +24,11 @@ app/build/
 captures/
 .externalNativeBuild/
 .cxx/
+
+# Signing keys (НЕ пушити)
+*.jks
+*.keystore
+
+# APK/AAB outputs
+*.apk
+*.aab
