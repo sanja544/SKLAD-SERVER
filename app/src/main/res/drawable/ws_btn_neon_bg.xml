@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#3300FFFF">
+
+    <item>
+        <layer-list>
+
+            <!-- зовнішнє "світіння" -->
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="18dp" />
+                    <solid android:color="#2200FFFF" />
+                </shape>
+            </item>
+
+            <!-- внутрішня заливка -->
+            <item
+                android:left="2dp"
+                android:top="2dp"
+                android:right="2dp"
+                android:bottom="2dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="16dp" />
+                    <solid android:color="#00FFFF" />
+                </shape>
+            </item>
+
+        </layer-list>
+    </item>
+
+</ripple>

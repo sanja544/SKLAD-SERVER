@@ -9,5 +9,13 @@ data class ProductEntity(
     val name: String,
     val price: Double,
     val qty: Int,
-    val photoUri: String? = null
+
+    // Локальне фото (FileProvider/content Uri) — для показу в UI
+    val photoUri: String? = null,
+
+    // Серверне фото (типу /photos/123.jpg) — для синхронізації
+    val photoRemoteUrl: String? = null,
+
+    val isDeleted: Int = 0,
+    val updatedAt: Long = 0L
 )

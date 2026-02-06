@@ -1,7 +1,9 @@
 package com.scan.warehouse
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -51,29 +53,68 @@ class IssueActivity : AppCompatActivity() {
         binding.btnIssue.setOnClickListener {
             issue()
         }
+
+        // стартовий стан
+        renderPhoto(null)
     }
 
     private fun setBarcode(barcode: String) {
-        currentBarcode = barcode
-        binding.tvBarcodeValue.text = barcode
+        currentBarcode = barcode.trim()
+        binding.tvBarcodeValue.text = currentBarcode
         binding.tvNameValue.text = "—"
         binding.tvQtyValue.text = "—"
+        renderPhoto(null)
     }
 
     private fun loadProduct(barcode: String) {
         CoroutineScope(Dispatchers.Main).launch {
             val dao = AppDatabase.get(applicationContext).productDao()
-            val product = withContext(Dispatchers.IO) { dao.getByBarcode(barcode) }
+            val product = withContext(Dispatchers.IO) { dao.getAnyByBarcode(barcode.trim()) }
 
             if (product == null) {
                 binding.tvNameValue.text = "НЕ ЗНАЙДЕНО"
                 binding.tvQtyValue.text = "0"
-                Toast.makeText(this@IssueActivity, "Товар не знайдено. Додай його в каталог.", Toast.LENGTH_SHORT).show()
+                renderPhoto(null)
+
+                Toast.makeText(
+                    this@IssueActivity,
+                    "Товар не знайдено. Додай його в каталог.",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 binding.tvNameValue.text = product.name
                 binding.tvQtyValue.text = product.qty.toString()
                 binding.etIssueQty.setText("1")
+
+                // показ фото (якщо є)
+                renderPhoto(product.photoUri)
             }
+        }
+    }
+
+    private fun renderPhoto(photoUri: String?) {
+        // ВАЖЛИВО: ці id повинні бути в activity_issue.xml:
+        // ivIssuePhoto і tvIssuePhotoHint
+        val iv = binding.ivIssuePhoto
+        val tv = binding.tvIssuePhotoHint
+
+        if (photoUri.isNullOrBlank()) {
+            iv.setImageDrawable(null)
+            iv.visibility = View.GONE
+            tv.visibility = View.VISIBLE
+            tv.text = "Фото не додано"
+            return
+        }
+
+        try {
+            iv.setImageURI(Uri.parse(photoUri))
+            iv.visibility = View.VISIBLE
+            tv.visibility = View.GONE
+        } catch (_: Exception) {
+            iv.setImageDrawable(null)
+            iv.visibility = View.GONE
+            tv.visibility = View.VISIBLE
+            tv.text = "Не вдалося відкрити фото"
         }
     }
 
@@ -93,18 +134,25 @@ class IssueActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             val dao = AppDatabase.get(applicationContext).productDao()
+            val now = System.currentTimeMillis()
 
             val ok = withContext(Dispatchers.IO) {
-                // 1) якщо товару нема — поверне 0
-                // 2) якщо не вистачає — поверне 0
-                dao.decrementQtyIfEnough(barcode, delta) > 0
+                dao.decrementQtyIfEnough(barcode, delta, now) > 0
             }
 
             if (ok) {
                 Toast.makeText(this@IssueActivity, "Видано: $delta", Toast.LENGTH_SHORT).show()
-                loadProduct(barcode) // оновити залишок
+
+                // автосинхронізація після видачі
+                SyncManager.requestSync(applicationContext)
+
+                loadProduct(barcode)
             } else {
-                Toast.makeText(this@IssueActivity, "Немає товару або недостатній залишок", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@IssueActivity,
+                    "Немає товару або недостатній залишок",
+                    Toast.LENGTH_SHORT
+                ).show()
                 loadProduct(barcode)
             }
         }

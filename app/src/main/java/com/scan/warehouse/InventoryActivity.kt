@@ -1,9 +1,9 @@
 package com.scan.warehouse
 
 import android.content.Intent
-import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -48,9 +48,9 @@ class InventoryActivity : AppCompatActivity() {
             onLongClick = { p ->
                 AlertDialog.Builder(this)
                     .setTitle("Видалити товар?")
-                    .setMessage(p.name + "\n" + p.barcode)
+                    .setMessage("${p.name}\n${p.barcode}")
                     .setPositiveButton("Видалити") { _, _ ->
-                        deleteProduct(p.barcode)
+                        softDeleteProduct(p.barcode)
                     }
                     .setNegativeButton("Скасувати", null)
                     .show()
@@ -80,21 +80,25 @@ class InventoryActivity : AppCompatActivity() {
         searchJob?.cancel()
         searchJob = CoroutineScope(Dispatchers.Main).launch {
             if (!immediate) delay(250)
+
             val dao = AppDatabase.get(applicationContext).productDao()
             val list = withContext(Dispatchers.IO) {
                 val q = query.trim()
                 if (q.isEmpty()) dao.getAll()
                 else dao.search("%$q%")
             }
+
             adapter.submit(list)
         }
     }
-    private fun deleteProduct(barcode: String) {
+
+    private fun softDeleteProduct(barcode: String) {
         CoroutineScope(Dispatchers.Main).launch {
             val dao = AppDatabase.get(applicationContext).productDao()
-            withContext(Dispatchers.IO) { dao.deleteByBarcode(barcode) }
+            withContext(Dispatchers.IO) {
+                dao.markDeleted(barcode, System.currentTimeMillis())
+            }
             scheduleSearch(binding.etSearch.text?.toString().orEmpty(), immediate = true)
         }
     }
-
 }

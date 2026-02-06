@@ -8,94 +8,179 @@
 
     <TextView
         android:id="@+id/tvTitle"
+        style="@style/WS.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Видача зі складу"
-        android:textSize="20sp"
-        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/tvBarcodeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Штрихкод:"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/tvBarcodeValue"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardBarcode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="—"
-        android:textStyle="bold"
-        android:layout_marginStart="8dp"
-        app:layout_constraintTop_toTopOf="@id/tvBarcodeLabel"
-        app:layout_constraintBottom_toBottomOf="@id/tvBarcodeLabel"
-        app:layout_constraintStart_toEndOf="@id/tvBarcodeLabel"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/btnScan"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Сканувати"
         android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@id/tvBarcodeLabel"
+        app:cardCornerRadius="18dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/ws_stroke_strong"
+        app:cardBackgroundColor="@color/ws_overlay_03"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/tvNameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Назва:"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/btnScan"
-        app:layout_constraintStart_toStartOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="14dp">
 
-    <TextView
-        android:id="@+id/tvNameValue"
+            <TextView
+                android:id="@+id/tvBarcodeLabel"
+                style="@style/WS.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Штрихкод"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tvBarcodeValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="10dp"
+                android:text="—"
+                android:textStyle="bold"
+                android:textColor="@color/ws_text"
+                app:layout_constraintTop_toBottomOf="@id/tvBarcodeLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnScan"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <Button
+                android:id="@+id/btnScan"
+                style="@style/WS.Button.Primary"
+                android:layout_width="150dp"
+                android:layout_height="48dp"
+                android:text="Сканувати"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardPhoto"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="12dp"
+        app:cardCornerRadius="18dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/ws_stroke_strong"
+        app:cardBackgroundColor="@color/ws_overlay_03"
+        app:layout_constraintTop_toBottomOf="@id/cardBarcode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/ivIssuePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Фото товару"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvIssuePhotoHint"
+                style="@style/WS.Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Фото не додано"
+                android:textColor="@color/ws_muted" />
+
+        </FrameLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="—"
-        android:textStyle="bold"
-        android:layout_marginStart="8dp"
-        app:layout_constraintTop_toTopOf="@id/tvNameLabel"
-        app:layout_constraintBottom_toBottomOf="@id/tvNameLabel"
-        app:layout_constraintStart_toEndOf="@id/tvNameLabel"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginTop="12dp"
+        app:cardCornerRadius="18dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/ws_stroke_strong"
+        app:cardBackgroundColor="@color/ws_overlay_03"
+        app:layout_constraintTop_toBottomOf="@id/cardPhoto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/tvQtyLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Залишок:"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/tvNameLabel"
-        app:layout_constraintStart_toStartOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="14dp">
 
-    <TextView
-        android:id="@+id/tvQtyValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="—"
-        android:textStyle="bold"
-        android:layout_marginStart="8dp"
-        app:layout_constraintTop_toTopOf="@id/tvQtyLabel"
-        app:layout_constraintBottom_toBottomOf="@id/tvQtyLabel"
-        app:layout_constraintStart_toEndOf="@id/tvQtyLabel"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <TextView
+                android:id="@+id/tvNameLabel"
+                style="@style/WS.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Назва"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tvNameValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="—"
+                android:textStyle="bold"
+                android:textColor="@color/ws_text"
+                app:layout_constraintTop_toBottomOf="@id/tvNameLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvQtyLabel"
+                style="@style/WS.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Залишок"
+                app:layout_constraintTop_toBottomOf="@id/tvNameValue"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tvQtyValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="—"
+                android:textStyle="bold"
+                android:textColor="@color/ws_text"
+                app:layout_constraintTop_toBottomOf="@id/tvQtyLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilIssueQty"
+        style="@style/WS.TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tvQtyLabel"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/cardInfo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -103,16 +188,17 @@
             android:id="@+id/etIssueQty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="Кількість для видачі" />
+            android:hint="Кількість для видачі"
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnIssue"
+        style="@style/WS.Button.Primary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Видати"
         android:layout_marginTop="12dp"
+        android:text="Видати"
         app:layout_constraintTop_toBottomOf="@id/tilIssueQty"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

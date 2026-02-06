@@ -1,5 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Core surfaces -->
+    <color name="ws_bg">#0B0F1A</color>
+    <color name="ws_panel">#0F1629</color>
+    <color name="ws_card">#121C33</color>
+
+    <!-- Text -->
+    <color name="ws_text">#EAF0FF</color>
+    <color name="ws_muted">#A7B0C0</color>
+
+    <!-- Strokes / overlays -->
+    <color name="ws_stroke">#14FFFFFF</color>
+    <color name="ws_stroke_strong">#1FFFFFFF</color>
+    <color name="ws_overlay_03">#08FFFFFF</color>
+    <color name="ws_overlay_06">#10FFFFFF</color>
+
+    <!-- Accents -->
+    <color name="ws_accent">#5EEAD4</color>
+    <color name="ws_accent2">#60A5FA</color>
+
+    <!-- Status -->
+    <color name="ws_ok">#34D399</color>
+    <color name="ws_danger">#FB7185</color>
+
+    <!-- Material required mapping (so components behave predictably) -->
+    <color name="colorPrimary">@color/ws_accent</color>
+    <color name="colorOnPrimary">#081018</color>
+
+    <color name="colorSecondary">@color/ws_accent2</color>
+    <color name="colorOnSecondary">#081018</color>
+
+    <color name="colorError">@color/ws_danger</color>
+    <color name="colorOnError">#081018</color>
+
+    <color name="colorBackground">@color/ws_bg</color>
+    <color name="colorOnBackground">@color/ws_text</color>
+
+    <color name="colorSurface">@color/ws_panel</color>
+    <color name="colorOnSurface">@color/ws_text</color>
+
+    <color name="colorSurfaceVariant">@color/ws_card</color>
+    <color name="colorOnSurfaceVariant">@color/ws_text</color>
+
+    <color name="outline">@color/ws_stroke_strong</color>
 </resources>

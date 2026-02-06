@@ -1,20 +1,26 @@
+# Gradle
+.gradle/
+build/
+
+# Android Studio
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+
+# Local config
 local.properties
 
-.idea/
-hs_err_pid*.log
-replay_pid*.log
-tools/*.py
+# Mac/Windows
+.DS_Store
+Thumbs.db
+
+# Kotlin/Java
+*.class
+
+# Logs
+*.log
+
+# Generated
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
